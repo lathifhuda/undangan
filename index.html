@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Wedding of Lathif & Effy</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section id="cover" class="cover-section">
+      <div class="content">
+        <h4>The Wedding of</h4>
+        <h1>Lathif & Effy</h1>
+        <p>Kepada Yth. Bapak/Ibu/Saudara/i</p>
+        <div class="guest-name">Tamu Undangan</div>
+        <button id="open-btn" class="btn-main">
+          <i class="fas fa-envelope-open"></i> Buka Undangan
+        </button>
+      </div>
+    </section>
+
+    <main id="main-content">
+      <audio id="music" loop>
+        <source src="Cinta terakhir.mp3" type="audio/mp3" />
+      </audio>
+
+      <div class="music-control" id="music-control">
+        <i class="fas fa-spin fa-compact-disc"></i>
+      </div>
+
+      <section class="couple section">
+        <h2>Mempelai</h2>
+        <p class="quote">
+          "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan
+          pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung
+          dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa
+          kasih dan sayang." <br />(QS. Ar-Rum: 21)
+        </p>
+
+        <div class="single-couple-wrapper">
+          <div class="main-photo-frame">
+            <img src="prewed1.jpg" alt="Lathif & Effy" />
+          </div>
+
+          <div class="couple-names">
+            <h3>Lathif Nurma Huda</h3>
+            <p class="parents">
+              Putra dari Bpk Sukatmo & Ibu Dwi Nurcahyaningsih
+            </p>
+
+            <span class="connector">&</span>
+
+            <h3>Effy Febriyanti</h3>
+            <p class="parents">Putri dari Alm Bpk Sarno & Ibu Sunarsi</p>
+          </div>
+        </div>
+      </section>
+      <section class="gallery section">
+        <h2>Potret Kami</h2>
+        <div class="gallery-container">
+          <div class="gallery-item">
+            <img src="foto undangan.png" alt="Foto Prewedding 1" />
+          </div>
+
+          <div class="gallery-item">
+            <img src="prewed2.jpg" alt="Foto Prewedding 2" />
+          </div>
+        </div>
+      </section>
+      <section class="event section">
+        <h2>Waktu & Tempat</h2>
+
+        <div class="countdown" id="countdown">
+          <div><span id="days">00</span> Hari</div>
+          <div><span id="hours">00</span> Jam</div>
+          <div><span id="minutes">00</span> Menit</div>
+          <div><span id="seconds">00</span> Detik</div>
+        </div>
+
+        <div class="event-details">
+          <div class="card">
+            <h3>Akad Nikah</h3>
+            <p><i class="far fa-clock"></i> 10.00 WIB - Selesai</p>
+            <p><i class="far fa-calendar"></i> Sabtu, Mei 2026</p>
+            <p><i class="fas fa-map-marker-alt"></i> Rumah Bapak</p>
+          </div>
+          <div class="card">
+            <h3>Resepsi</h3>
+            <p><i class="far fa-clock"></i> 10.00 WIB - Selesai</p>
+            <p><i class="far fa-calendar"></i> Sabtu, Mei 2026</p>
+            <p><i class="fas fa-map-marker-alt"></i> Rumah Bapak</p>
+          </div>
+        </div>
+
+        <div class="map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1050.1466805888476!2d110.80203893981812!3d-8.0395295855833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7bc94a292e6e07%3A0x9df3b018f33c2462!2smajelis%20nada%20dakwah%20dan%20sedekah%20miftahul%20huda!5e0!3m2!1sid!2sid!4v1765976919264!5m2!1sid!2sid"
+            width="100%"
+            height="300"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+          ></iframe>
+        </div>
+        </div>
+      </section> 
+      <section class="video section">
+        <h2>Video Prewedding</h2>
+ <div class="video-wrapper">
+    <video id="video-prewed" controls>
+        <source src="a7x gs.mp4" type="video/mp4">
+        Browser Anda tidak mendukung pemutar video ini.
+    </video>
+</div>
+      </section>
+      <section class="rsvp section">
+        <h2>Konfirmasi Kehadiran</h2>
+        <p>
+          Mohon klik tombol di bawah ini jika Anda berencana hadir, <br />agar
+          kami dapat mempersiapkan jamuan dengan baik.
+        </p>
+
+        <div class="rsvp-simple-container">
+          <button
+            id="btn-hadir"
+            class="btn-main"
+            style="
+              width: 100%;
+              max-width: 300px;
+              padding: 15px;
+              font-size: 1.1rem;
+            "
+          >
+            <i class="fas fa-check-circle"></i> Insya Allah, Saya Hadir
+          </button>
+
+          <div
+            id="pesan-sukses"
+            style="
+              display: none;
+              margin-top: 20px;
+              color: var(--accent-color);
+              font-weight: bold;
+            "
+          >
+            <i class="fas fa-heart"></i> Terima kasih, kehadiran Anda telah
+            tercatat.
+          </div>
+        </div>
+      </section>
+      <footer>
+        <p>The Wedding of Lathif & Effy</p>
+        <small>Dibuat dengan ❤️</small>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
+<main id="main-content">
+  <audio id="music" loop>
+    <source src="Cinta terakhir.mp3" type="audio/mp3" />
+  </audio>
+
+  <div class="music-control" id="music-control">
+    <i class="fas fa-spin fa-compact-disc"></i>
+  </div>
+</main>

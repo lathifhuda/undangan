@@ -1,0 +1,354 @@
+/* --- KONFIGURASI WARNA (TEMA DARK GOLD) --- */
+:root {
+  --bg-color: #121212; /* Hitam Pekat */
+  --card-bg: #1e1e1e; /* Abu Gelap untuk Kartu */
+  --text-color: #e0e0e0; /* Putih Tulang */
+  --accent-color: #d4af37; /* Emas Mewah */
+  --font-main: "Poppins", sans-serif;
+  --font-title: "Playfair Display", serif;
+}
+
+/* --- RESET DASAR --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-main);
+  overflow: hidden; /* Dikunci sebelum tombol buka diklik */
+}
+
+/* --- COVER SECTION (Edit Bagian Ini) --- */
+.cover-section {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+
+  /* GANTI BAGIAN BACKGROUND DI SINI */
+  background-color: #000000; /* Warna Hitam Pekat */
+  /* background-image: none; <--- Pastikan tidak ada url gambar */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.8s ease-in-out;
+}
+
+.cover-section.open {
+  transform: translateY(-100%); /* Efek geser ke atas */
+}
+
+.content h4 {
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.content h1 {
+  font-family: var(--font-title);
+  font-size: 3rem;
+  color: var(--accent-color);
+  margin: 10px 0;
+}
+
+.guest-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 15px 0;
+  padding: 10px;
+  border: 1px solid var(--accent-color);
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.btn-main {
+  background-color: var(--accent-color);
+  color: #000;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: 0.3s;
+  font-size: 1rem;
+}
+
+.btn-main:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--accent-color);
+}
+
+/* --- KONTEN UTAMA --- */
+.section {
+  padding: 60px 20px;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  font-family: var(--font-title);
+  color: var(--accent-color);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--accent-color);
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.quote {
+  font-style: italic;
+  margin-bottom: 30px;
+  max-width: 600px;
+  line-height: 1.6;
+  color: #bbb;
+}
+
+/* --- SINGLE COUPLE LAYOUT (FOTO TENGAH) --- */
+.single-couple-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.main-photo-frame img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%; /* Membuat lingkaran */
+  border: 5px solid var(--accent-color);
+  object-fit: cover;
+  margin-bottom: 25px;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.4); /* Efek glowing emas */
+}
+
+.couple-names {
+  width: 100%;
+}
+
+.couple-names h3 {
+  font-family: var(--font-title);
+  font-size: 2.2rem;
+  color: var(--accent-color);
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.connector {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  color: #fff;
+  display: block;
+  margin: 15px 0;
+}
+
+.parents {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+/* --- COUNTDOWN --- */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.countdown div {
+  background-color: var(--card-bg);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--accent-color);
+  min-width: 80px;
+}
+
+.countdown span {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+/* --- KARTU ACARA --- */
+.event-details {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.card {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+}
+
+.card h3 {
+  color: var(--accent-color);
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.card p {
+  margin: 10px 0;
+  color: #ccc;
+}
+
+.card i {
+  color: var(--accent-color);
+  margin-right: 8px;
+}
+
+/* --- MAP & FOOTER --- */
+.map {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--accent-color);
+}
+
+footer {
+  padding: 30px;
+  text-align: center;
+  background-color: #000;
+  font-size: 0.9rem;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* --- TOMBOL MUSIK --- */
+.music-control {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent-color);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  z-index: 100;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  border: 2px solid #fff;
+}
+
+/* --- TAMBAHAN BAGIAN GALERI --- */
+.gallery-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Jarak antar foto */
+  flex-wrap: wrap; /* Agar foto turun ke bawah saat di layar HP */
+  margin-top: 30px;
+  width: 100%;
+}
+
+.gallery-item {
+  width: 100%;
+  max-width: 400px; /* Lebar maksimal foto di layar besar */
+  height: 300px; /* Tinggi tetap agar seragam */
+  overflow: hidden;
+  border-radius: 15px; /* Sudut melengkung */
+  border: 3px solid var(--accent-color); /* Bingkai emas */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+/* Efek saat foto disentuh/di-hover */
+.gallery-item:hover {
+  transform: scale(1.02); /* Sedikit membesar */
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Memastikan foto mengisi kotak tanpa gepeng */
+  object-position: top;
+}
+
+/* --- STYLE FORM RSVP --- */
+.rsvp-form {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  max-width: 500px;
+  width: 100%;
+  margin-top: 20px;
+  border: 1px solid #333;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background-color: #121212; /* Warna input gelap */
+  color: #fff;
+  font-family: var(--font-main);
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-color); /* Fokus warna emas */
+}
+
+/* --- CSS UNTUK VIDEO --- */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 800px; /* Lebar maksimal agar tidak terlalu lebar di laptop */
+  margin: 20px auto; /* Posisi tengah */
+  border: 5px solid var(--accent-color); /* Bingkai warna emas */
+  border-radius: 10px; /* Sudut melengkung */
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  background: #000;
+}
+
+.video-wrapper video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
