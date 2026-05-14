@@ -1,73 +1,123 @@
-// --- LOGIKA UTAMA (script.js) ---
-
+// --- 1. KONFIGURASI UTAMA ---
 const openBtn = document.getElementById("open-btn");
 const cover = document.getElementById("cover");
 const music = document.getElementById("music");
 const musicControl = document.getElementById("music-control");
 const body = document.body;
 
-// 1. FUNGSI BUKA UNDANGAN
-openBtn.addEventListener("click", () => {
-  // Geser cover ke atas
-  cover.classList.add("open");
-  // Izinkan scroll
-  body.style.overflow = "auto";
+// --- 2. ANIMASI PEMBUKA (COVER LOAD) ---
+// Menjalankan animasi foto dan teks segera setelah halaman dibuka
+document.addEventListener("DOMContentLoaded", function () {
+  const animateElements = document.querySelectorAll(".animate-on-load");
 
-  // Mulai musik
-  // Kita gunakan promise untuk menangkap error jika browser memblokir
-  music
-    .play()
-    .then(() => {
-      // Jika berhasil play, ubah ikon jadi berputar
-      updateMusicIcon(true);
-    })
-    .catch((error) => {
-      console.log("Autoplay dicegah atau file tidak ditemukan:", error);
-      // Jika gagal play, pastikan ikon dalam mode pause (diam)
-      updateMusicIcon(false);
+  setTimeout(() => {
+    animateElements.forEach((el) => {
+      el.classList.add("active");
     });
+  }, 200); // Delay kecil agar transisi terlihat halus
 });
 
-// 2. KONTROL MUSIK (TOMBOL PLAY/PAUSE)
-// Menggunakan pengecekan 'music.paused' agar lebih akurat
-musicControl.addEventListener("click", () => {
-  if (music.paused) {
-    music.play();
-    updateMusicIcon(true); // Ubah jadi ikon disc berputar
-  } else {
-    music.pause();
-    updateMusicIcon(false); // Ubah jadi ikon pause/diam
+// Custom Tamu Undangan
+function getGuestName() {
+  // Mengambil teks setelah tanda '?'
+  const queryString = window.location.search.substring(1);
+
+  if (queryString) {
+    // Mengubah %20 atau _ menjadi spasi agar rapi
+    const name = decodeURIComponent(queryString).replace(/_/g, " ");
+    document.getElementById("guest-name").innerText = name;
   }
-});
+}
+window.addEventListener("DOMContentLoaded", getGuestName);
 
-// Fungsi pembantu untuk update tampilan ikon
+// --- 3. FUNGSI BUKA UNDANGAN ---
+if (openBtn) {
+  openBtn.addEventListener("click", () => {
+    // Geser cover ke atas
+    cover.classList.add("open");
+
+    // Izinkan scroll halaman
+    body.style.overflow = "auto";
+
+    // Pemicu awal animasi scroll agar konten di bawah langsung terdeteksi
+    revealOnScroll();
+
+    // Mulai musik otomatis
+    if (music) {
+      music
+        .play()
+        .then(() => updateMusicIcon(true))
+        .catch((error) => {
+          console.log("Autoplay dicegah browser:", error);
+          updateMusicIcon(false);
+        });
+    }
+  });
+}
+
+// --- 4. KONTROL MUSIK (PLAY/PAUSE) ---
+// --- 4. KONTROL MUSIK (PLAY/PAUSE) & SYNC VIDEO ---
+
+// Fungsi pendukung untuk update tampilan tombol musik (Harus ada agar tidak error)
 function updateMusicIcon(isPlaying) {
+  if (!musicControl) return;
   if (isPlaying) {
-    musicControl.innerHTML = '<i class="fas fa-compact-disc"></i>';
-    musicControl.style.animation = "spin 2s linear infinite";
+    musicControl.innerHTML = '<i class="fas fa-compact-disc fa-spin"></i>';
+    musicControl.style.animation = "spin 3s linear infinite";
   } else {
-    musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+    musicControl.innerHTML = '<i class="fas fa-pause-circle"></i>';
     musicControl.style.animation = "none";
   }
 }
 
-// 3. INJEKSI ANIMASI CSS (AGAR TIDAK PERLU EDIT STYLE.CSS)
-const styleSheet = document.createElement("style");
-styleSheet.innerText = `
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+// Event listener untuk tombol musik manual
+if (musicControl && music) {
+  musicControl.addEventListener("click", () => {
+    if (music.paused) {
+      music.play().then(() => updateMusicIcon(true));
+    } else {
+      music.pause();
+      updateMusicIcon(false);
+    }
+  });
 }
-.fa-compact-disc {
-    animation: spin 2s linear infinite;
-}
-`;
-document.head.appendChild(styleSheet);
 
-// 4. HITUNG MUNDUR (COUNTDOWN)
-// Ganti tanggal di bawah ini: (Tahun, Bulan-1, Tanggal, Jam, Menit)
-// Ingat: Bulan dimulai dari 0 (Januari=0 ... Desember=11)
-const targetDate = new Date(2026, 4, 23, 8, 0, 0).getTime();
+// Logika Otomatis Video vs Musik
+const videoElement = document.querySelector("video");
+
+if (videoElement && music) {
+  // 1. Saat video mulai diputar (Play)
+  videoElement.addEventListener("play", () => {
+    if (!music.paused) {
+      music.pause();
+      updateMusicIcon(false);
+    }
+  });
+
+  // 2. Saat video dijeda (Pause)
+  videoElement.addEventListener("pause", () => {
+    // Hanya putar balik jika cover sudah terbuka
+    if (cover.classList.contains("open")) {
+      music
+        .play()
+        .then(() => updateMusicIcon(true))
+        .catch(() => {});
+    }
+  });
+
+  // 3. Saat video selesai (Ended)
+  videoElement.addEventListener("ended", () => {
+    if (cover.classList.contains("open")) {
+      music
+        .play()
+        .then(() => updateMusicIcon(true))
+        .catch(() => {});
+    }
+  });
+}
+// --- 5. HITUNG MUNDUR (COUNTDOWN) ---
+// Target: 24 Mei 2026, Jam 08:00 Pagi (Sudah disesuaikan ke tanggal Akad)
+const targetDate = new Date(2026, 4, 24, 8, 0, 0).getTime();
 
 const timer = setInterval(function () {
   const now = new Date().getTime();
@@ -75,20 +125,19 @@ const timer = setInterval(function () {
 
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
-    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
   );
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  // Cek apakah elemen ada sebelum diupdate (mencegah error)
-  if (document.getElementById("days")) {
-    document.getElementById("days").innerText = days;
+  const elDays = document.getElementById("days");
+  if (elDays) {
+    elDays.innerText = days;
     document.getElementById("hours").innerText = hours;
     document.getElementById("minutes").innerText = minutes;
     document.getElementById("seconds").innerText = seconds;
   }
 
-  // Jika waktu habis
   if (distance < 0) {
     clearInterval(timer);
     const countdownElem = document.getElementById("countdown");
@@ -99,83 +148,90 @@ const timer = setInterval(function () {
   }
 }, 1000);
 
-// 5. INJEKSI ANIMASI CSS (AGAR TIDAK PERLU EDIT STYLE.CSS)
-const styleSheet2 = document.createElement("style");
-styleSheet2.innerText = `
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-`;
-document.head.appendChild(styleSheet2);
-
-/* --- SISTEM ONE CLICK ATTENDANCE (FIXED NO-CORS) --- */
-
-// Link API Google Apps Script Anda
+// --- 6. SISTEM ONE CLICK ATTENDANCE ---
 const scriptURL =
   "https://script.google.com/macros/s/AKfycbxgw7-8Wl7a28uoa6gajeq9XaXfSioHWLvjuCLCVho4Ls91MvyerZQcb569jcy00qBNnw/exec";
-
 const btnHadir = document.getElementById("btn-hadir");
 const pesanSukses = document.getElementById("pesan-sukses");
 
-// Cek memori HP (LocalStorage)
+// Fungsi pengecekan agar tombol muncul kembali jika sedang testing
+// Hapus baris di bawah ini jika sudah fiks agar fitur anti-spam aktif
+// localStorage.removeItem("sudah_klik_hadir");
+/*
 if (localStorage.getItem("sudah_klik_hadir") === "true") {
   if (btnHadir) btnHadir.style.display = "none";
   if (pesanSukses) pesanSukses.style.display = "block";
 }
-
+*/
 if (btnHadir) {
   btnHadir.addEventListener("click", () => {
-    // 1. Ubah tampilan tombol jadi loading
-    const originalText = btnHadir.innerHTML;
+    // Memberi feedback visual saat loading
     btnHadir.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mencatat...';
-    btnHadir.style.opacity = "0.7";
-    btnHadir.disabled = true; // Matikan tombol sementara
+    btnHadir.disabled = true;
 
-    // 2. Kirim data dengan mode NO-CORS (Anti Error Browser)
+    // Menggunakan fetch dengan parameter yang lebih kompatibel untuk Google Apps Script
     fetch(scriptURL, {
       method: "POST",
-      mode: "no-cors", // <--- PENTING: Ini agar browser tidak memblokir
+      mode: "no-cors", // Tetap gunakan no-cors untuk Google Script agar tidak kena blokir kebijakan CORS
       body: new FormData(),
     })
       .then(() => {
-        // Karena pakai no-cors, browser tidak akan menerima balasan "Success" dari Google
-        // Jadi kita ASUMSIKAN sukses jika tidak masuk ke catch error
-        console.log("Request terkirim (Mode No-CORS)");
-
-        // 3. Simpan tanda di memori HP tamu
+        // Karena menggunakan no-cors, kita anggap pengiriman berhasil jika tidak masuk ke .catch
         localStorage.setItem("sudah_klik_hadir", "true");
-
-        // 4. Ubah tampilan jadi pesan sukses
         btnHadir.style.display = "none";
-        pesanSukses.style.display = "block";
+        if (pesanSukses) pesanSukses.style.display = "block";
+        console.log("Data kehadiran berhasil dikirim ke Google Sheets.");
       })
       .catch((error) => {
-        console.error("Error:", error);
-        alert("Gagal terhubung ke server. Pastikan internet lancar.");
-
-        // Kembalikan tombol jika gagal total
-        btnHadir.innerHTML = originalText;
-        btnHadir.style.opacity = "1";
+        console.error("Error saat mengirim data:", error);
+        alert("Gagal terhubung ke server. Pastikan koneksi internet aktif.");
         btnHadir.disabled = false;
+        btnHadir.innerHTML =
+          '<i class="fas fa-check-circle"></i> Insya Allah, Saya Hadir';
       });
   });
 }
-/* --- LOGIKA VIDEO & MUSIK --- */
-const videoPrewed = document.getElementById("video-prewed");
 
-// Pastikan elemen video ada sebelum menjalankan perintah
-if (videoPrewed) {
-  videoPrewed.addEventListener("play", () => {
-    // 1. Matikan Musik Background
-    if (music) {
-      music.pause();
-    }
+// --- 7. ANIMASI SCROLL REVEAL ---
+function revealOnScroll() {
+  const reveals = document.querySelectorAll(
+    ".reveal-text, .reveal-image, .reveal-left, .reveal-right",
+  );
 
-    // 2. Ubah Ikon Musik jadi 'Pause' (berhenti berputar)
-    if (musicControl) {
-      musicControl.innerHTML = '<i class="fas fa-pause"></i>';
-      musicControl.style.animation = "none";
+  reveals.forEach((el) => {
+    const windowHeight = window.innerHeight;
+    const elementTop = el.getBoundingClientRect().top;
+    const elementVisible = 50;
+
+    if (elementTop < windowHeight - elementVisible) {
+      el.classList.add("active");
     }
   });
+}
+
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
+
+// Fungsi salin nomor rekening (Tetap sama)
+// --- FUNGSI SALIN NOMOR DENGAN TOAST ESTETIK ---
+function copyText(elementId) {
+  const text = document.getElementById(elementId).innerText;
+  const toast = document.getElementById("toast");
+
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      // Tampilkan Toast
+      toast.className = "toast show";
+
+      // Hilangkan Toast setelah 3 detik
+      setTimeout(function () {
+        toast.className = toast.className.replace("show", "");
+      }, 3000);
+
+      console.log("Berhasil menyalin: " + text);
+    })
+    .catch((err) => {
+      console.error("Gagal menyalin: ", err);
+    });
 }
